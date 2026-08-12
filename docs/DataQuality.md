@@ -68,7 +68,7 @@ The validation process identifies customer records where date relationships do n
 ### Validation Result
 Customer date violations: 0
 
-No customer date violations were identified in the validated V2 dataset.
+No customer date violations were identified in the validated dataset.
 
 ## Employee Date Validation
 
@@ -79,7 +79,7 @@ The validation identifies employee records where the relevant date relationships
 ### Validation Result
 Employee date violations: 0
 
-No employee date violations were identified in the validated V2 dataset.
+No employee date violations were identified in the validated dataset.
 
 ## Promotion Date Validation
 
@@ -88,7 +88,7 @@ Promotion start and end dates are checked to ensure that promotion date relation
 ### Validation Result
 Promotion date violations: 0
 
-No promotion date violations were identified in the validated V2 dataset.
+No promotion date violations were identified in the validated dataset.
 
 ## Inventory Balance Validation
 
@@ -113,11 +113,11 @@ The validation process checks whether return records can be correctly associated
 ### Validation Result
 Return linkage errors: 0
 
-No return linkage errors were identified in the validated V2 dataset.
+No return linkage errors were identified in the validated dataset.
 
 ## Overall Validation Result
 
-The final V2 dataset validation produced the following results:
+The final dataset validation produced the following results:
 
 | Validation Check          | Result |
 | ------------------------- | -----: |
@@ -130,7 +130,7 @@ The final V2 dataset validation produced the following results:
 ### Overall Status
 ALL VALIDATION CHECKS PASSED
 
-This indicates that all implemented validation checks passed successfully for the validated V2 dataset.
+This indicates that all implemented validation checks passed successfully for the validated dataset.
 
 ## Business Shape Validation
 
