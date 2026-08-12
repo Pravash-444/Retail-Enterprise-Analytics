@@ -291,7 +291,7 @@ This helps reduce the risk of inaccurate information reaching business users.
 
 ## Validation Summary
 
-The V2 dataset successfully passed all implemented validation checks.
+The dataset successfully passed all implemented validation checks.
 
 Customer Date Violations       = 0
 
