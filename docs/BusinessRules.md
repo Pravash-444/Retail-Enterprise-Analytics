@@ -389,7 +389,7 @@ Moving Average	Three-month monthly average
 
 Data Quality	Validate business and referential rules
 
-# 22. Business Rules and Data Engineering
+# 21. Business Rules and Data Engineering
 
 The business rules are implemented across multiple layers of the solution.
 
