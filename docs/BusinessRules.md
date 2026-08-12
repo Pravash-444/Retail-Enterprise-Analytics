@@ -365,37 +365,49 @@ Examples include:
 The underlying measure should remain numeric; formatting is applied at the reporting layer.
 
 # 20. Business Rule Summary
-Area	Primary Rule
+| Area           | Primary Rule                                      |
+| -------------- | ------------------------------------------------- |
+| Revenue        | Sum of SalesAmount                                |
+| Net Sales      | SalesAmount after discount                        |
+| Quantity       | Sum of Quantity                                   |
+| Orders         | Count of sales transactions                       |
+| Inventory      | Opening + Received - Sold = Closing               |
+| Returns        | Linked to original SalesKey                       |
+| Promotions     | Associated through PromotionKey                   |
+| Customer       | Analyzed through DimCustomer                      |
+| Product        | Analyzed through DimProduct                       |
+| Store          | Analyzed through DimStore                         |
+| Employee       | Analyzed through DimEmployee                      |
+| Region         | Associated through RegionKey                      |
+| Time           | Controlled through DimDate                        |
+| YoY            | Current period vs corresponding prior-year period |
+| Moving Average | Three-month monthly average                       |
+| Data Quality   | Validate business and referential rules           |
 
-Revenue	Sum of SalesAmount
-
-Net Sales	SalesAmount after discount
-
-Quantity	Sum of Quantity
-
-Orders	Count of sales transactions
-
-Inventory	Opening + Received - Sold = Closing
-
-Returns	Linked to original SalesKey
-
-Promotions	Associated through PromotionKey
-
-Customer	Analyzed through DimCustomer
-
-Product	Analyzed through DimProduct
-
-Store	Analyzed through DimStore
-
-Employee	Analyzed through DimEmployee
-
-Region	Associated through RegionKey
-
-Time	Controlled through DimDate
-
-YoY	Current period vs corresponding prior-year period
 
 Moving Average	Three-month monthly average
 
 Data Quality	Validate business and referential rules
+
+# 22. Business Rules and Data Engineering
+
+The business rules are implemented across multiple layers of the solution.
+
+Source Data
+     ↓
+Bronze Lakehouse
+     ↓
+Validation
+     ↓
+Silver Transformation
+     ↓
+Gold Transformation
+     ↓
+Data Quality
+     ↓
+Fabric Warehouse
+     ↓
+Semantic Model
+     ↓
+Power BI
 
