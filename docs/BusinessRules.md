@@ -363,11 +363,11 @@ Opening Stock
 Returns must be associated with valid sales transactions.
 
 ---
-# 17. ensional Modeling Rules
+# 17. Dimensional Modeling Rules
 
-The analytical model follows a ensional/star-schema-oriented structure.
+The analytical model follows a Dimensional/star-schema-oriented structure.
 
-ension tables provide descriptive attributes while fact tables contain transactional or measurable business events.
+Dimension tables provide descriptive attributes while fact tables contain transactional or measurable business events.
 
 ## Main Sales Relationships
 ```
@@ -407,7 +407,7 @@ Power BI reporting follows several principles:
 - Prefer Net Sales for post-discount sales analysis.
 - Use Year-over-Year metrics for period comparison.
 - Use monthly trends for time-series analysis.
-- Use appropriate ensions for slicing and filtering.
+- Use appropriate Dimensions for slicing and filtering.
 - Avoid interpreting incomplete periods as full-period comparisons.
 - Return blank rather than misleading growth percentages when a valid comparison period does not exist.
 - Use chronological date sorting for monthly analysis.
