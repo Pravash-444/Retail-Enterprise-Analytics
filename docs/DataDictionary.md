@@ -10,7 +10,7 @@ The analytical model consists of dimension tables, fact tables and Gold reportin
 
 # 1. Dimension Tables
 
-## DimCustomer
+## Customer
 
 Contains customer master information used for customer-level analysis.
 
@@ -33,7 +33,7 @@ Contains customer master information used for customer-level analysis.
 
 ---
 
-## DimDate
+## Date
 
 Provides the calendar and time-intelligence attributes used throughout the analytical model.
 
@@ -57,7 +57,7 @@ Provides the calendar and time-intelligence attributes used throughout the analy
 
 ---
 
-## DimEmployee
+## Employee
 
 Contains employee master information.
 
@@ -74,7 +74,7 @@ Contains employee master information.
 
 ---
 
-## DimProduct
+## Product
 
 Contains product master information.
 
@@ -93,7 +93,7 @@ Contains product master information.
 
 ---
 
-## DimPromotion
+## Promotion
 
 Contains promotion master information.
 
@@ -108,7 +108,7 @@ Contains promotion master information.
 
 ---
 
-## DimRegion
+## Region
 
 Contains geographical region information.
 
@@ -120,7 +120,7 @@ Contains geographical region information.
 
 ---
 
-## DimStore
+## Store
 
 Contains store master information.
 
@@ -138,7 +138,7 @@ Contains store master information.
 
 ---
 
-## DimSupplier
+## Supplier
 
 Contains supplier master information.
 
@@ -396,14 +396,14 @@ The tables can be broadly classified as follows:
 ### Dimensions
 
 ```text
-DimDate
-DimCustomer
-DimProduct
-DimStore
-DimRegion
-DimSupplier
-DimEmployee
-DimPromotion
+Date
+Customer
+Product
+Store
+Region
+Supplier
+Employee
+Promotion
 ```
 
 ### Facts
