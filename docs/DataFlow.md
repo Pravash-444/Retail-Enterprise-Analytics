@@ -228,19 +228,17 @@ WH_Retail
 
 ## Dimension Schema
 
-The `dim` schema contains the published dimension tables.
-
-Unlike the source/generated dimension names, the Warehouse uses simplified table names without the `Dim` prefix:
+The `dim` schema contains the published dimension tables:
 
 ```text
-Customer
-Date
-Product
-Store
-Region
-Supplier
-Employee
-Promotion
+DimCustomer
+DimDate
+DimEmployee
+DimProduct
+DimPromotion
+DimRegion
+DimStore
+DimSupplier
 ```
 
 ## Fact Schema
@@ -267,7 +265,7 @@ GoldInventorySummary
 GoldReturnsSummary
 ```
 
-This naming convention reflects the actual table names implemented in the Fabric Warehouse.
+These names reflect the actual table names implemented in the Fabric Warehouse.
 
 ---
 
