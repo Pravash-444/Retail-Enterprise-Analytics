@@ -93,7 +93,7 @@ Discount-related metrics are used to evaluate the impact of promotions and disco
 
 A sales transaction may be associated with a promotion through PromotionKey.
 
-Promotion information is maintained in DimPromotion.
+Promotion information is maintained in Promotion.
 
 Key promotion attributes include:
 
@@ -148,7 +148,7 @@ Return linkage validation ensures that return transactions can be associated wit
 ---
 # 6. Customer Rules
 
-Customer analysis is based on the customer dimension.
+Customer analysis is based on the customer ension.
 
 Important customer attributes include:
 
@@ -203,7 +203,7 @@ In reporting, Sales/Net Sales represents sales after discounts.
 ---
 # 9. Regional Rules
 
-Regions are maintained in DimRegion.
+Regions are maintained in Region.
 
 Stores, customers and suppliers can be associated with regions through RegionKey.
 
@@ -212,7 +212,7 @@ Regional analysis can therefore be performed across multiple business entities.
 ---
 # 10. Employee Rules
 
-Employee information is maintained in DimEmployee.
+Employee information is maintained in Employee.
 
 Sales performance can be analyzed using the employee associated with a sales transaction through EmployeeKey.
 
@@ -230,7 +230,7 @@ Employee analysis includes:
 ---
 # 11. Date and Time Rules
 
-DimDate is the central date dimension used for time-based analysis.
+Date is the central date ension used for time-based analysis.
 
 Important fields include:
 
@@ -315,7 +315,7 @@ The metric considers the current month and the preceding two months.
 3M Moving Average =
 Average of the latest 3 monthly Net Sales values
 ```
-The YearMonth and YearMonthNumber fields in DimDate support chronological monthly analysis.
+The YearMonth and YearMonthNumber fields in Date support chronological monthly analysis.
 
 The moving average is used alongside monthly Net Sales to identify the underlying trend.
 
@@ -329,7 +329,7 @@ Active customer metrics are therefore dependent on the current filter context.
 ---
 # 15. Active Store Analysis
 
-An active store represents a store considered active according to the store dimension and/or having relevant sales activity within the selected reporting period.
+An active store represents a store considered active according to the store ension and/or having relevant sales activity within the selected reporting period.
 
 Store performance measures should therefore be evaluated within the applicable reporting period.
 
@@ -363,35 +363,35 @@ Opening Stock
 Returns must be associated with valid sales transactions.
 
 ---
-# 17. Dimensional Modeling Rules
+# 17. ensional Modeling Rules
 
-The analytical model follows a dimensional/star-schema-oriented structure.
+The analytical model follows a ensional/star-schema-oriented structure.
 
-Dimension tables provide descriptive attributes while fact tables contain transactional or measurable business events.
+ension tables provide descriptive attributes while fact tables contain transactional or measurable business events.
 
 ## Main Sales Relationships
 ```
-DimDate
+Date
     ↓
 FactSales
 
-DimCustomer
+Customer
     ↓
 FactSales
 
-DimProduct
+Product
     ↓
 FactSales
 
-DimStore
+Store
     ↓
 FactSales
 
-DimEmployee
+Employee
     ↓
 FactSales
 
-DimPromotion
+Promotion
     ↓
 FactSales
 ```
@@ -407,7 +407,7 @@ Power BI reporting follows several principles:
 - Prefer Net Sales for post-discount sales analysis.
 - Use Year-over-Year metrics for period comparison.
 - Use monthly trends for time-series analysis.
-- Use appropriate dimensions for slicing and filtering.
+- Use appropriate ensions for slicing and filtering.
 - Avoid interpreting incomplete periods as full-period comparisons.
 - Return blank rather than misleading growth percentages when a valid comparison period does not exist.
 - Use chronological date sorting for monthly analysis.
@@ -442,12 +442,12 @@ The underlying measure should remain numeric; formatting is applied at the repor
 | Inventory      | Opening + Received - Sold = Closing               |
 | Returns        | Linked to original SalesKey                       |
 | Promotions     | Associated through PromotionKey                   |
-| Customer       | Analyzed through DimCustomer                      |
-| Product        | Analyzed through DimProduct                       |
-| Store          | Analyzed through DimStore                         |
-| Employee       | Analyzed through DimEmployee                      |
+| Customer       | Analyzed through Customer                      |
+| Product        | Analyzed through Product                       |
+| Store          | Analyzed through Store                         |
+| Employee       | Analyzed through Employee                      |
 | Region         | Associated through RegionKey                      |
-| Time           | Controlled through DimDate                        |
+| Time           | Controlled through Date                        |
 | YoY            | Current period vs corresponding prior-year period |
 | Moving Average | Three-month monthly Net Sales average             |
 | Data Quality   | Validate business and referential rules           |
