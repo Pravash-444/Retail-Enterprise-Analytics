@@ -71,6 +71,8 @@ Customer-related dates are checked against the defined business rules.
 
 The validation process identifies customer records where date relationships do not satisfy the expected conditions.
 
+The validation is associated with the customer data represented by `DimCustomer`.
+
 ## Validation Result
 
 ```text
@@ -87,6 +89,8 @@ Employee-related dates are validated against the defined business rules.
 
 The validation process identifies employee records where the relevant date relationships are inconsistent.
 
+The validation is associated with the employee data represented by `DimEmployee`.
+
 ## Validation Result
 
 ```text
@@ -100,6 +104,8 @@ No employee date violations were identified in the validated dataset.
 # 3. Promotion Date Validation
 
 Promotion start and end dates are checked to ensure that promotion date relationships satisfy the expected business conditions.
+
+The validation is associated with the promotion data represented by `DimPromotion`.
 
 ## Validation Result
 
@@ -122,6 +128,8 @@ Opening Stock + Stock Received - Stock Sold
 
 An inventory balance error occurs when the calculated closing stock does not match the recorded closing stock.
 
+The validation is performed against the inventory data represented by `FactInventory`.
+
 ## Validation Result
 
 ```text
@@ -137,6 +145,8 @@ No inventory balance errors were identified in the validated dataset.
 Returns are linked to the original sales transactions using `SalesKey`.
 
 The validation process checks whether return records can be correctly associated with valid sales transactions.
+
+The validation uses the relationship between `FactReturns` and `FactSales`.
 
 ## Validation Result
 
