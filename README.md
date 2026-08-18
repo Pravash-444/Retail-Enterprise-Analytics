@@ -33,7 +33,6 @@ The objective is to transform raw retail data into a structured analytical solut
 | Microsoft Fabric | Data engineering and analytics platform |
 | Fabric Lakehouse | Data storage and transformation |
 | PySpark Notebooks | Validation and medallion transformations |
-| Dataflow Gen2 | Data ingestion/transformation |
 | Fabric Warehouse | SQL-based analytical layer |
 | SQL | Analytical queries and reporting views |
 | Power BI | Data visualization and business reporting |
