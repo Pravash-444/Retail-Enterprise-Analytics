@@ -66,7 +66,7 @@ Semantic Model
 Power BI
 ```
 
-![Architecture](images/architecture/architecture.png)
+![Architecture](images/architecture/Fabric_Workspace_Overview.png)
 
 ---
 
