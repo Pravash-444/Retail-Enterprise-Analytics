@@ -2,11 +2,11 @@
 
 ## 1. Project Overview
 
-Retail Enterprise Analytics is an end-to-end business intelligence and data engineering solution built using Microsoft Fabric, SQL, and Power BI.
+Retail Enterprise Analytics is an end-to-end business intelligence and data engineering solution built using **Microsoft Fabric, PySpark, SQL, Power BI, Parquet and GitHub**.
 
 The solution transforms source Parquet data into a structured analytical platform through a Medallion Architecture and delivers business-ready insights through a semantic model and Power BI reporting.
 
-The project is designed to demonstrate a practical enterprise analytics workflow from source data ingestion to business reporting.
+The project demonstrates a practical analytics workflow from source data ingestion through validation, transformation, data quality, analytical warehousing and business reporting.
 
 ---
 
@@ -24,7 +24,7 @@ The objective of the solution is to provide a centralized analytical platform fo
 - Promotions and discounts
 - Time-based sales trends
 
-The solution enables users to analyze business performance through interactive dashboards and analytical KPIs.
+The solution enables users to analyze business performance through interactive dashboards, KPIs and analytical visuals.
 
 ---
 
@@ -60,7 +60,7 @@ Semantic Model
 Power BI
 ```
 
-The project starts from source data ingestion rather than data generation, reflecting a typical enterprise data analytics workflow.
+The project starts from source data ingestion and follows a structured data engineering and analytics workflow.
 
 ---
 
@@ -76,13 +76,13 @@ The project starts from source data ingestion rather than data generation, refle
 | Semantic Model | Business relationships and analytical measures |
 | Power BI | Interactive reporting and visualization |
 | Parquet | Source data format |
-| GitHub | Source control and project documentation |
+| GitHub | Version control and project documentation |
 
 ---
 
 ## 5. Data Pipeline
 
-The data pipeline consists of the following major stages:
+The data pipeline consists of the following major stages.
 
 ### Source Data
 
@@ -102,34 +102,62 @@ The source dataset contains:
 - Inventory transactions
 - Return transactions
 
+The source entities include:
+
+```text
+DimCustomer
+DimDate
+DimEmployee
+DimProduct
+DimPromotion
+DimRegion
+DimStore
+DimSupplier
+
+FactSales
+FactInventory
+FactReturns
+```
+
 ### Bronze Layer
 
-Source Parquet files are uploaded to the Bronze Lakehouse and loaded into structured tables.
+Source Parquet files are uploaded to the Bronze Lakehouse Files area and loaded into structured Delta tables.
 
-The Bronze layer preserves the ingested source data and provides the starting point for downstream processing.
+The Bronze layer provides the initial landing and ingestion layer for downstream processing.
 
-### Validation
+### Data Validation
 
 The ingested Bronze data is validated before transformation.
 
-Validation includes:
+The implemented validation checks include:
 
-- Row count validation
-- Null value validation
-- Duplicate primary key validation
-- Data integrity checks
-
-Only validated data proceeds to the transformation layer.
+- Customer date validation
+- Employee date validation
+- Promotion date validation
+- Inventory balance validation
+- Return linkage validation
 
 ### Silver Layer
 
-The Silver layer contains cleaned and transformed data prepared for analytical processing.
+The Silver layer contains cleaned and standardized data prepared for analytical processing.
 
 The transformation process applies the required cleansing, standardization and business transformations.
 
 ### Gold Layer
 
-The Gold layer contains business-ready analytical datasets and aggregated reporting tables.
+The Gold layer contains business-ready analytical datasets designed for reporting and business analysis.
+
+The Gold datasets include:
+
+```text
+GoldSalesDaily
+GoldSalesMonthly
+GoldProductPerformance
+GoldStorePerformance
+GoldCustomerPerformance
+GoldInventorySummary
+GoldReturnsSummary
+```
 
 These datasets support:
 
@@ -142,17 +170,17 @@ These datasets support:
 
 ### Data Quality
 
-A dedicated data quality stage validates the Gold layer before it is published to the Warehouse.
+A dedicated Data Quality stage validates the processed data before it is published to the Warehouse.
 
-The quality checks include:
+The implemented checks include:
 
-- Row count validation
-- Primary key NULL validation
-- Duplicate primary key validation
-- Referential integrity validation
-- Business table validation
+- Customer date validation
+- Employee date validation
+- Promotion date validation
+- Inventory balance validation
+- Return linkage validation
 
-The Gold layer is approved for Warehouse loading after the required quality checks pass.
+All implemented validation checks passed successfully for the validated dataset.
 
 ---
 
@@ -170,13 +198,46 @@ WH_Retail
 └── rpt
 ```
 
-The schemas separate:
+### Dimension Schema
 
-- Dimension tables
-- Transactional fact tables
-- Reporting and analytical datasets
+The `dim` schema contains:
 
-The Warehouse acts as the structured serving layer for the semantic model.
+```text
+DimCustomer
+DimDate
+DimEmployee
+DimProduct
+DimPromotion
+DimRegion
+DimStore
+DimSupplier
+```
+
+### Fact Schema
+
+The `fact` schema contains:
+
+```text
+FactSales
+FactInventory
+FactReturns
+```
+
+### Reporting Schema
+
+The `rpt` schema contains:
+
+```text
+GoldSalesDaily
+GoldSalesMonthly
+GoldProductPerformance
+GoldStorePerformance
+GoldCustomerPerformance
+GoldInventorySummary
+GoldReturnsSummary
+```
+
+The Warehouse acts as the structured analytical serving layer for the semantic model.
 
 ---
 
@@ -190,10 +251,23 @@ The model provides:
 - Analytical measures
 - KPI calculations
 - Time-based analysis
+- Year-over-year analysis
+- Moving-average analysis
 - Filtering and slicing
 - Business reporting logic
 
-The sales fact table forms the core of the analytical model and connects with relevant business dimensions such as Date, Customer, Product, Store, Employee and Promotion.
+The `FactSales` table forms the core of the sales analytical model and connects with relevant dimensions such as:
+
+```text
+DimDate
+DimCustomer
+DimProduct
+DimStore
+DimEmployee
+DimPromotion
+```
+
+Additional fact and dimension tables support inventory, returns, regional and supplier analysis.
 
 ---
 
@@ -201,29 +275,54 @@ The sales fact table forms the core of the analytical model and connects with re
 
 Power BI is used as the final business intelligence and visualization layer.
 
-The report provides multiple analytical perspectives covering:
+The final report contains **9 analytical pages**:
 
-- Executive overview
-- Sales performance
-- Customer insights
-- Product performance
-- Inventory overview
-- Return analysis
-- Region and store analysis
-- Employee performance
-- Trend analysis
+1. **Executive Overview**
+2. **Sales Performance**
+3. **Customer Insights**
+4. **Product Performance**
+5. **Inventory Overview**
+6. **Return Analysis**
+7. **Region & Store Analysis**
+8. **Employee Performance**
+9. **Trend Analysis**
 
-The report uses interactive filters, KPIs, charts, tables and analytical visuals to support business decision-making.
+The report provides interactive analysis across:
+
+- Sales
+- Customers
+- Products
+- Inventory
+- Returns
+- Stores
+- Regions
+- Employees
+- Promotions
+- Time-based trends
+
+The report uses interactive filters, KPIs, charts, tables and analytical visuals to support business analysis and decision-making.
 
 ---
 
 ## 9. Data Quality and Governance
 
-Data quality is incorporated throughout the pipeline rather than being treated as a final reporting activity.
+Data quality is incorporated into the data pipeline rather than being treated only as a final reporting activity.
 
-The solution applies validation and quality checks at important stages of the data pipeline to reduce the risk of inaccurate or inconsistent analytical results.
+The implemented validation process checks:
 
-The project also separates data engineering, analytical serving and reporting responsibilities across the architecture.
+| Validation Check | Result |
+|---|---:|
+| Customer date violations | 0 |
+| Employee date violations | 0 |
+| Promotion date violations | 0 |
+| Inventory balance errors | 0 |
+| Return linkage errors | 0 |
+
+### Overall Status
+
+**ALL VALIDATION CHECKS PASSED**
+
+These checks help reduce the risk of invalid or inconsistent data reaching the Warehouse, Semantic Model and Power BI reporting layers.
 
 ---
 
@@ -233,9 +332,6 @@ The GitHub repository contains the main project artifacts:
 
 ```text
 Retail Enterprise Analytics/
-│
-├── data/
-│   └── Source Parquet files
 │
 ├── docs/
 │   ├── Architecture.md
@@ -266,9 +362,27 @@ Retail Enterprise Analytics/
 
 ## 11. Project Outcome
 
-The solution provides an end-to-end analytical workflow that connects source data ingestion, data validation, transformation, data quality, analytical warehousing, semantic modeling and business reporting.
+The solution provides an end-to-end analytical workflow connecting:
 
-It demonstrates how Microsoft Fabric can be used to build a structured and scalable analytics solution while maintaining clear separation between data engineering and business intelligence layers.
+```text
+Source Data
+     ↓
+Data Engineering
+     ↓
+Data Validation
+     ↓
+Medallion Transformation
+     ↓
+Data Quality
+     ↓
+Data Warehouse
+     ↓
+Semantic Model
+     ↓
+Business Intelligence
+```
+
+The project demonstrates how Microsoft Fabric can be used to build a structured retail analytics solution while maintaining clear separation between data engineering, analytical serving and business intelligence layers.
 
 ---
 
@@ -283,8 +397,11 @@ The project demonstrates practical experience with:
 - Data quality
 - Fabric Warehouse
 - SQL analytics
-- Dimensional analytical modeling
+- Dimensional data modeling
 - Semantic models
 - DAX measures
 - Power BI reporting
-- GitHub project organization and documentation
+- Time intelligence
+- Business KPI development
+- GitHub project organization
+- Technical documentation
