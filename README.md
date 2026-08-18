@@ -1,8 +1,8 @@
 # Retail Enterprise Analytics
 
-An end-to-end **Retail Enterprise Analytics** solution built using **Microsoft Fabric, SQL, Power BI, Python, and GitHub**.
+An end-to-end **Retail Enterprise Analytics** solution built using **Microsoft Fabric, PySpark, SQL, Power BI, Python, Parquet, and GitHub**.
 
-The project demonstrates a complete analytics workflow from source data generation and ingestion through data validation, medallion transformation, data quality, warehouse analytics, and interactive Power BI reporting.
+The project demonstrates a complete analytics workflow from source data ingestion through data validation, Medallion Architecture, data quality, analytical warehousing, semantic modeling, SQL analytics and interactive Power BI reporting.
 
 ---
 
@@ -19,8 +19,9 @@ The solution analyzes retail business operations across:
 - Regions
 - Employees
 - Promotions
+- Time-based sales trends
 
-The objective is to transform raw retail data into a structured analytical solution that supports business reporting and decision-making.
+The objective is to transform raw retail data into a structured analytical solution that supports business reporting, performance analysis and decision-making.
 
 ---
 
@@ -31,10 +32,11 @@ The objective is to transform raw retail data into a structured analytical solut
 | Python | Source data generation and preparation |
 | Parquet | Source data storage format |
 | Microsoft Fabric | Data engineering and analytics platform |
-| Fabric Lakehouse | Data storage and transformation |
-| PySpark Notebooks | Validation and medallion transformations |
-| Fabric Warehouse | SQL-based analytical layer |
-| SQL | Analytical queries and reporting views |
+| Fabric Lakehouse | Bronze, Silver and Gold data layers |
+| PySpark Notebooks | Data ingestion, validation and Medallion transformations |
+| Fabric Warehouse | Structured analytical serving layer |
+| SQL | Analytical queries and reporting |
+| Semantic Model | Business relationships, measures and analytical calculations |
 | Power BI | Data visualization and business reporting |
 | GitHub | Version control and project documentation |
 
@@ -45,22 +47,22 @@ The objective is to transform raw retail data into a structured analytical solut
 The project follows a layered data architecture:
 
 ```text
-Source Data
-    ↓
+Source Parquet Data
+        ↓
 Bronze Lakehouse
-    ↓
+        ↓
 Data Validation
-    ↓
-Silver Transformation
-    ↓
-Gold Transformation
-    ↓
+        ↓
+Silver Lakehouse
+        ↓
+Gold Lakehouse
+        ↓
 Data Quality
-    ↓
+        ↓
 Fabric Warehouse
-    ↓
+        ↓
 Semantic Model
-    ↓
+        ↓
 Power BI
 ```
 
@@ -70,52 +72,137 @@ Power BI
 
 ## Data Pipeline
 
-The data pipeline follows a structured progression from raw data to business reporting.
+The data pipeline follows a structured progression from source data to business reporting.
+
+### Source Data
+
+The solution receives source data in Parquet format.
+
+The source entities include:
+
+```text
+DimCustomer
+DimDate
+DimEmployee
+DimProduct
+DimPromotion
+DimRegion
+DimStore
+DimSupplier
+
+FactSales
+FactInventory
+FactReturns
+```
 
 ### Bronze Layer
 
-Raw Parquet files are ingested into the Bronze Lakehouse.
+Raw Parquet files are uploaded to the Bronze Lakehouse Files area.
 
-### Validation
+The Bronze layer provides the initial landing and ingestion layer for the source data.
 
-Initial validation checks include:
+### Data Validation
 
-- Row count validation
-- Null value validation
-- Duplicate primary key validation
+The ingested data is validated before downstream transformation.
 
-### Silver Layer
-
-The Bronze data is transformed and cleaned into the Silver layer.
-
-### Gold Layer
-
-Business-ready analytical tables are created in the Gold layer.
-
-### Data Quality
-
-Final validation checks are performed before loading data into the Warehouse.
-
-### Warehouse
-
-Validated Gold-layer data is loaded into the Fabric Warehouse for SQL-based analytics.
-
----
-
-## Data Quality
-
-The solution includes validation of important business and referential relationships, including:
+The implemented validation checks include:
 
 - Customer date validation
 - Employee date validation
 - Promotion date validation
 - Inventory balance validation
 - Return linkage validation
-- Primary key validation
-- Duplicate key validation
-- Null value validation
 
-The final data quality process confirms that the Gold layer is ready for Warehouse consumption.
+### Silver Layer
+
+The Bronze data is cleaned, standardized and transformed into the Silver layer.
+
+### Gold Layer
+
+The Silver data is transformed into business-ready analytical datasets.
+
+The Gold datasets include:
+
+```text
+GoldSalesDaily
+GoldSalesMonthly
+GoldProductPerformance
+GoldStorePerformance
+GoldCustomerPerformance
+GoldInventorySummary
+GoldReturnsSummary
+```
+
+### Data Quality
+
+A dedicated Data Quality stage validates the processed data before it is published to the Warehouse.
+
+The implemented checks include:
+
+- Customer date validation
+- Employee date validation
+- Promotion date validation
+- Inventory balance validation
+- Return linkage validation
+
+All implemented validation checks passed successfully for the validated dataset.
+
+### Warehouse
+
+Validated Gold data is published to the `WH_Retail` Fabric Warehouse.
+
+The Warehouse is organized into three logical schemas:
+
+```text
+WH_Retail
+│
+├── dim
+├── fact
+└── rpt
+```
+
+The `dim` schema contains:
+
+```text
+DimCustomer
+DimDate
+DimEmployee
+DimProduct
+DimPromotion
+DimRegion
+DimStore
+DimSupplier
+```
+
+The `fact` schema contains:
+
+```text
+FactSales
+FactInventory
+FactReturns
+```
+
+The `rpt` schema contains the Gold reporting and analytical datasets.
+
+---
+
+## Data Quality
+
+The final Data Quality process validates important business and referential relationships.
+
+| Validation Check | Result |
+|---|---:|
+| Customer date violations | 0 |
+| Employee date violations | 0 |
+| Promotion date violations | 0 |
+| Inventory balance errors | 0 |
+| Return linkage errors | 0 |
+
+### Overall Status
+
+**ALL VALIDATION CHECKS PASSED**
+
+For detailed validation information, see [`DataQuality.md`](docs/DataQuality.md).
 
 ---
 
@@ -141,13 +228,15 @@ Gross Sales / Total Revenue
     Net Sales / Sales
 ```
 
+**Total Revenue and Net Sales are not the same metric.**
+
 For detailed business definitions and calculation rules, see [`BusinessRules.md`](docs/BusinessRules.md).
 
 ---
 
 ## SQL Analytics
 
-The Warehouse includes SQL analytics covering:
+The Fabric Warehouse includes SQL analytics covering:
 
 - Customer and product dimensions
 - Sales transactions
@@ -181,14 +270,14 @@ The SQL analytics scripts are available in the [`sql`](sql) folder.
 The final Power BI solution contains **9 analytical pages**:
 
 1. **Executive Overview** — Overall business performance
-2. **Sales Performance** — Sales trends and performance
-3. **Customer Insights** — Customer behavior and value analysis
+2. **Sales Performance** — Sales performance and trends
+3. **Customer Insights** — Customer behavior, value and retention analysis
 4. **Product Performance** — Product, category and brand performance
-5. **Inventory Overview** — Inventory levels and stock movement
-6. **Return Analysis** — Return trends, reasons and regional analysis
+5. **Inventory Overview** — Inventory levels, stock value and movement
+6. **Return Analysis** — Return trends, reasons and return performance
 7. **Region & Store Analysis** — Regional and store performance
-8. **Employee Performance** — Workforce and employee sales contribution
-9. **Trend Analysis** — Time-based trends and growth analysis
+8. **Employee Performance** — Employee and workforce performance
+9. **Trend Analysis** — Time-based trends, growth and moving averages
 
 Power BI report screenshots are available in [`images/powerbi`](images/powerbi).
 
@@ -198,16 +287,20 @@ Power BI report screenshots are available in [`images/powerbi`](images/powerbi).
 
 The solution provides insights into:
 
-- Revenue and Net Sales performance
+- Gross Sales / Total Revenue
+- Net Sales / Sales
 - Sales growth and trends
 - Customer value and segmentation
+- Customer retention
 - Product and category performance
-- Inventory movement
-- Return patterns
+- Inventory levels and inventory value
+- Return patterns and reasons
 - Regional and store performance
 - Employee performance
 - Promotion impact
-- Time-series and moving-average analysis
+- Time-series analysis
+- Moving-average analysis
+- Year-over-year performance
 
 ---
 
@@ -215,8 +308,6 @@ The solution provides insights into:
 
 ```text
 Retail-Enterprise-Analytics/
-│
-├── data/
 │
 ├── docs/
 │   ├── Architecture.md
@@ -234,8 +325,10 @@ Retail-Enterprise-Analytics/
 │   └── warehouse/
 │
 ├── notebooks/
+│   └── Fabric data engineering notebooks
 │
 ├── sql/
+│   └── SQL analytics scripts
 │
 └── README.md
 ```
@@ -248,11 +341,11 @@ Additional project documentation is available in the [`docs`](docs) folder:
 
 - [`Architecture.md`](docs/Architecture.md) — Solution architecture and data platform design
 - [`BusinessRules.md`](docs/BusinessRules.md) — Business definitions and calculation rules
-- [`DataDictionary.md`](docs/DataDictionary.md) — Data and field definitions
-- [`DataFlow.md`](docs/DataFlow.md) — Data pipeline and transformation flow
+- [`DataDictionary.md`](docs/DataDictionary.md) — Tables and field definitions
+- [`DataFlow.md`](docs/DataFlow.md) — End-to-end data pipeline and transformation flow
 - [`DataQuality.md`](docs/DataQuality.md) — Data quality and validation approach
-- [`ProjectOverview.md`](docs/ProjectOverview.md) — Project overview
-- [`Warehouse.md`](docs/Warehouse.md) — Warehouse design and analytical layer
+- [`ProjectOverview.md`](docs/ProjectOverview.md) — Detailed project overview
+- [`Warehouse.md`](docs/Warehouse.md) — Warehouse structure and analytical serving layer
 
 ---
 
@@ -262,9 +355,52 @@ The project demonstrates how a retail organization can build an end-to-end analy
 
 It combines:
 
-**Data Engineering → Data Quality → Data Warehousing → SQL Analytics → Business Intelligence**
+```text
+Data Engineering
+       ↓
+Data Validation
+       ↓
+Medallion Architecture
+       ↓
+Data Quality
+       ↓
+Data Warehousing
+       ↓
+SQL Analytics
+       ↓
+Semantic Modeling
+       ↓
+Business Intelligence
+```
 
-to transform raw retail data into actionable business insights.
+The solution transforms source retail data into structured analytical datasets and delivers actionable business insights through Power BI.
+
+---
+
+## Key Capabilities Demonstrated
+
+The project demonstrates practical experience with:
+
+- Microsoft Fabric
+- Fabric Lakehouse
+- Medallion Architecture
+- PySpark data processing
+- Data ingestion
+- Data validation
+- Data quality
+- Fabric Warehouse
+- SQL analytics
+- Dimensional data modeling
+- Semantic models
+- DAX measures
+- Time intelligence
+- Year-over-year analysis
+- Moving-average analysis
+- KPI development
+- Power BI reporting
+- Data visualization
+- GitHub project organization
+- Technical documentation
 
 ---
 
@@ -272,14 +408,15 @@ to transform raw retail data into actionable business insights.
 
 **Pravash Paul**
 
-Microsoft Certified: Power BI Data Analyst
+**Microsoft Certified: Power BI Data Analyst**
 
-Skills demonstrated in this project include:
+### Skills Demonstrated
 
 - Microsoft Fabric
 - Power BI
 - SQL
 - Python
+- PySpark
 - Data Cleaning
 - Data Validation
 - Data Modeling
