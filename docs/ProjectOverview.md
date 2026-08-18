@@ -71,7 +71,6 @@ The project starts from source data ingestion rather than data generation, refle
 | Microsoft Fabric | Data engineering and analytical platform |
 | Fabric Lakehouse | Bronze, Silver and Gold data layers |
 | PySpark | Data ingestion, transformation and validation |
-| Fabric Dataflow Gen2 | Data ingestion and pipeline support |
 | Fabric Warehouse | Structured analytical serving layer |
 | SQL | Analytical queries and reporting view |
 | Semantic Model | Business relationships and analytical measures |
@@ -282,7 +281,6 @@ The project demonstrates practical experience with:
 - PySpark data processing
 - Data validation
 - Data quality
-- Fabric Dataflow Gen2
 - Fabric Warehouse
 - SQL analytics
 - Dimensional analytical modeling
