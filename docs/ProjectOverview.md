@@ -351,9 +351,6 @@ Retail Enterprise Analytics/
 ├── notebooks/
 │   └── Fabric data engineering notebooks
 │
-├── power bi/
-│   └── Power BI project artifacts
-│
 └── sql/
     └── SQL analytics scripts
 ```
